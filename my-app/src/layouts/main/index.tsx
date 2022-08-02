@@ -4,7 +4,6 @@ export const Main = () => {
   return (
     <>
       <Header />
-      
     </>
   )
 }

@@ -1,8 +1,12 @@
+import './style.css'
 
 export const HeaderCard = () => {
   return (
     <>
-      <h1>Relic Planner</h1>
+      <div className="headerContainer">
+        <h1>Relic Planner</h1>
+        <p></p>
+      </div>
     </>
   )
 }
