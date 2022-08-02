@@ -1,1 +1,1 @@
-# relic-planner
+# Relic-Planner
