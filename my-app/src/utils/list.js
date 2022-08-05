@@ -1,5 +1,6 @@
 
 const partsOmitted = ["Blueprint", "Neuroptics", "Chassis", "Systems", "Ornament", "Blade", "Blades", "Boot", "Gauntlet", "Chain", "Hilt", "Head", "Handle", "Receiver", "Barrel", "Stock", "Link", "Pouch", "Stars", "Lower", "Upper", "Limb", "Grip", "String"]
+const frameParts = ["Neuroptics", "Chassis", "Systems"]
 
 // filters and returns unique items
 // need to create object that holds name and components
@@ -15,12 +16,34 @@ export const getListOfItems = (data) => {
       ingredients.add(drop.item)
     })
   })
+
+  // Placing Archwings on Warframe typing and companions on weapon typing for now
+  const findType = (components) => {
+    if (components.length <= 1) {
+      return "Ingredient"
+    }
+
+    let result = "Weapon"
+
+    components.forEach(comp => {
+      frameParts.forEach(e => {
+        if (comp.includes(e)) {
+          result = "Warframe"
+        }
+      })
+    })
+
+    return result
+  }
   
-  const items = [...names].map(obj => {
+  const items = [...names].map(name => {
+    const components = [...ingredients].filter(e => e.includes(name))
     return {
-      name: obj,
-      components: [...ingredients].filter(e => e.includes(obj))
+      name: name,
+      components: components,
+      type: findType(components)
     }
   })
+  console.log(items);
   return items
 }
