@@ -24,7 +24,7 @@ export const Main = () => {
     console.log(data);
     getListOfItems(data)
     
-    if (data == "[]") {
+    if (data === "[]") {
       console.log("initializing...");
       initialize()
     } 
