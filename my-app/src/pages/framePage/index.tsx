@@ -1,7 +1,9 @@
+import React from 'react'
 
-export const framePage = () => {
+export const FramePage = () => {
   return (
     <>
+      <p>FramePage</p>
     </>
   )
 }
