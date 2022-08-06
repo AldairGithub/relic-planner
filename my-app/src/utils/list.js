@@ -1,9 +1,11 @@
+import { types } from "./utils"
 
-const partsOmitted = ["Blueprint", "Neuroptics", "Chassis", "Systems", "Ornament", "Blade", "Blades", "Boot", "Gauntlet", "Chain", "Hilt", "Head", "Handle", "Receiver", "Barrel", "Stock", "Link", "Pouch", "Stars", "Lower", "Upper", "Limb", "Grip", "String"]
-const frameParts = ["Neuroptics", "Chassis", "Systems"]
+const partsOmitted = ["Blueprint", "Neuroptics", "Chassis", "Carapace", "Cerebrum", "Harness", "Wings", "Systems", "Ornament", "Blade", "Blades", "Boot", "Gauntlet", "Chain", "Hilt", "Head", "Handle", "Receiver", "Barrel", "Stock", "Link", "Pouch", "Stars", "Lower", "Upper", "Limb", "Limbs", "Grip", "String", "Guard"]
+const frameParts = ["Neuroptics", "Chassis"]
+const companionParts = ["Carapace", "Cerebrum"]
+const archwingParts = ["Harness", "Wings"]
 
-// filters and returns unique items
-// need to create object that holds name and components
+// filters and returns name, components, and type of item
 export const getListOfItems = (data) => {
   let names = new Set()
   let ingredients = new Set()
@@ -17,20 +19,23 @@ export const getListOfItems = (data) => {
     })
   })
 
-  // Placing Archwings on Warframe typing and companions on weapon typing for now
   const findType = (components) => {
     if (components.length <= 1) {
       return "Ingredient"
     }
 
-    let result = "Weapon"
-
+    const searchForType = (arr, compareArr) => arr.split(" ").some(e => compareArr.includes(e))
+    let result = ''
     components.forEach(comp => {
-      frameParts.forEach(e => {
-        if (comp.includes(e)) {
-          result = "Warframe"
-        }
-      })
+      if (searchForType(comp, frameParts)) {
+        result = types.warframe
+      } else if (searchForType(comp, companionParts)) {
+        result = types.companion
+      } else if (searchForType(comp, archwingParts)) {
+        result = types.archwing
+      } else {
+        result = types.weapon
+      }
     })
 
     return result
@@ -38,10 +43,11 @@ export const getListOfItems = (data) => {
   
   const items = [...names].map(name => {
     const components = [...ingredients].filter(e => e.includes(name))
+    const type = findType(components)
     return {
       name: name,
       components: components,
-      type: findType(components)
+      type: type
     }
   })
   console.log(items);

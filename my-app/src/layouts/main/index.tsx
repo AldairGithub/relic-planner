@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { PageState } from "../../pages/PageState"
 import { fetchData } from "../../services/api"
 import { getListOfItems } from "../../utils/list"
 import { Header } from "../header"
@@ -19,23 +20,20 @@ export const Main = () => {
     // with data from the api while insde our callback(.then({}))
     // we need to create a function that works with this data
     let data = JSON.parse(localStorage.getItem("data") || "[]")
-    console.log("from storage: ");
-    
-    console.log(data);
+    console.log("Initializing from local storage...");
     getListOfItems(data)
     
     if (data === "[]") {
-      console.log("initializing...");
+      console.log("initializing from api...");
       initialize()
-    } 
+    }
 
   }, [])
 
   return (
     <>
       <Header />
-      {/* here my pages will exists */}
-      {/* need to include a nav bar for opening and closing states */}
+      <PageState />
     </>
   )
 }
